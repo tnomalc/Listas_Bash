@@ -1,0 +1,257 @@
+\documentclass[a4paper,13pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{listings}
+\usepackage{minted}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+
+\begin{document}
+
+01)Leia dois valores para as variáveis A e B, efetue a troca dos valores de forma que a variável A passe a ter o valor da variável B e que a variável B, o valor da variável A. Apresentar os valores trocados.
+\\
+\begin{minted}{bash}
+#!/usr/bin/env bash
+
+echo "Digite o valor da primeira variável: "
+read VAR1
+
+echo "Digite o valor da segunda variável: "
+read VAR2
+
+TROCA_VAR=$VAR1
+VAR1=$VAR2
+VAR2=$TROCA_VAR
+
+echo "$VAR1  $VAR2"
+\end{minted}
+\\
+
+02)Escreva um algoritmo que receba um número e mostre o número, se ele estiver entre quinze (inclusive) e quarenta.
+\\
+\begin{minted}{bash}
+#!/usr/bin/env bash
+
+echo "Por favor,digite um número: "
+read NUM
+
+if [ $NUM -gt 15 -a $NUM -lt 40 ];then
+   echo "$NUM"
+fi
+\end{minted}
+\\
+
+03)Faça um algoritmo que receba nome, turma e três notas do aluno. Calcule a média ponderada considerando: primeira nota peso um, segunda nota peso dois e terceira nota peso três, informar o nome, a turma e a média do aluno que a média for inferior a sete.
+\begin{minted}{bash}
+
+#!/usr/bin/env bash
+
+SOMA_NOTAS=0
+
+echo "Digite o nome da(o) discente: "
+read NOME
+
+echo "Digite a turma: "
+read TURMA
+
+echo "Por favor,digite a primeira nota: "
+read NOTA1
+
+echo "Por favor,digite a segunda nota: "
+read NOTA2
+
+echo "Por favor,digite a terceira nota: "
+read NOTA3
+
+MEDIA=`echo "scale=4;$[($NOTA1 + $NOTA2*2 + $NOTA3*3)/6]" | bc -l`
+
+echo "$NOME da $TURMA obteve média $MEDIA"
+\end{minted}
+\\
+
+04)Construa um algoritmo que verifique se um número fornecido pelo usuário é primo ou não.
+
+\\
+\begin{minted}{bash}
+
+ #!/usr/bin/env bash
+
+echo "Por favor, digite um número: "
+read NUM
+
+if [ $NUM -eq 1 ];then
+  echo "Não é primo"
+fi
+
+if [ $NUM -gt 1 ];then
+
+
+if [ $NUM -gt 2  -a $[NUM%2] -eq 0 ];then
+  echo "Não é primo"
+
+
+else
+  echo "É primo"
+fi
+fi
+ 
+\end{minted}
+\\
+
+05)Faça um algoritmo que receba o salário de um funcionário, calcule e mostre o novo salário, sabendo-se que este sofreu um aumento de 25\%. Este aumento e válido para os funcionários com mais de cinco anos de serviço.
+\\
+\begin{minted}{bash}
+
+#!/usr/bin/env bash
+
+echo "Digite a quantidade de anos trabalho: "
+read TEMP_SERV
+
+echo "Digite o valor do salário: "
+read SAL_ATUAL
+
+if [ $TEMP_SERV -gt 5 ];then
+  SAL_NOVO=`echo "escale=4;$SAL_ATUAL*1.25" | bc -l`
+fi
+
+echo "O salário reajustado é $SAL_NOVO"
+
+\end{minted}
+
+06)Entrar com um número e informar se ele é ou não divisível por 5.
+\begin{minted}{bash}
+
+#!/usr/bin/env bash
+
+echo "Digite um número: "
+read NUM
+
+test $[NUM%5] -eq 0  && echo "Divisível por cinco" || echo "Não divisível por cinco"
+
+\end{minted}
+
+\\
+07)Entrar com um número e informar se ele é divisível por 3 e por 7.\\
+\begin{minted}{bash}
+#!/usr/bin/env bash
+
+echo "Por favor, digite um número: "
+read NUM
+
+[ $[NUM%3] -eq 0 -a $[NUM%7] -eq 0 ] && echo "O número é divisível por 3 e 7"
+\end{minted}
+\\
+08)Um funcionário irá receber um aumento de acordo com o seu plano de trabalho, de acordo com a tabela abaixo\\
+\begin{figure}[H]
+ \centering
+ \includegraphics[width=7cm]{imagens/f2.png}
+\end{figure}
+
+\begin{minted}{bash}
+#!/usr/bin/env bash
+
+echo "Por favor, digite o plano A,B ou C: "
+read PLANO
+
+echo "Por favor, digite o valor do salário: "
+read SAL_ATUAL
+
+case $PLANO in
+"A")
+ NOVO_SALARIO=`echo "scale=4;$SAL_ATUAL*1.10" | bc -l`
+ echo "O salário reajustado  é $NOVO_SALARIO"
+ ;;
+
+"B")
+ NOVO_SALARIO=`echo "scale=4;$SAL_ATUAL*1.15" | bc -l`
+ echo "O salário reajustado  é $NOVO_SALARIO"
+ ;;
+
+"C")
+  NOVO_SALARIO=`echo "scale=4;$SAL_ATUAL*1.20" | bc -l`
+  echo "O salário reajustado  é $NOVO_SALARIO"
+ ;;
+ 
+ *) echo "Errrrrrrrrou";;
+ 
+esac
+\end{minted}
+\\
+09)O cardápio do lanche Pão com Ovo é o seguinte\\
+\begin{figure}[htb]
+ \centering
+ \includegraphics[width=7cm]{imagens/f1.png}
+\end{figure}
+\\
+Implemente um programa que leia o código do item pedido, a quantidade e calcule o valor a ser pago por aquele lanche. Considere que a cada execução somente será calculado um item.\\
+\begin{minted}{bash}
+#!/usr/bin/env bash
+
+echo "Por obséquio, digite o código do pedido(100 até 105) :"
+read COD_PED
+
+echo "Agora, a quantidade desejada :"
+read QUANT
+
+case $COD_PED in
+
+ 100)
+    VALOR_PAGAR=`echo "scale=5;$QUANT*1.2" | bc -l`
+    echo "O valor devido é $VALOR_PAGAR"
+    ;;
+ 101) 
+    VALOR_PAGAR=`echo "scale=5;$QUANT*1.30" | bc -l`
+    echo "O valor devido é $VALOR_PAGAR"
+    ;;
+ 
+ 102)
+   VALOR_PAGAR=`echo "scale=5;$QUANT*1.50" | bc -l`
+    echo "O valor devido é $VALOR_PAGAR"
+    ;;
+ 
+ 103)
+   VALOR_PAGAR=`echo "scale=5;$QUANT*1.20" | bc -l`
+   echo "O valor devido é $VALOR_PAGAR"
+   ;;
+ 
+ 104)
+  VALOR_PAGAR=`echo "scale=5;$QUANT*1.30" | bc -l`
+  echo "O valor devido é $VALOR_PAGAR"
+  ;; 
+ 
+ 105)
+   VALOR_PAGAR=`echo "scale=5;$QUANT*1.0" | bc -l`
+   echo "O valor devido é $VALOR_PAGAR"
+   ;;
+  
+ *) echo "Código inserido é inválido!";;
+ 
+ esac
+
+\end{minted}
+\\
+10)Escreva um algoritmo que receba dois números e informe a diferença do maior
+pelo menor.
+\\
+\begin{minted}{bash}
+
+#!/usr/bin/env bash
+
+echo "Digite um número: "
+read NUM1
+
+echo "Digite outro número: "
+read NUM2
+
+if [ $NUM1 -gt $NUM2 ];then
+  diferenca=$(($NUM1-$NUM2))
+
+ else
+   diferenca=$(($NUM2-$NUM1))
+fi
+
+echo "$diferenca"
+\end{minted}
+
+\end{document}
